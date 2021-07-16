@@ -1,4 +1,7 @@
 export default class SortableTable {
+  element;
+  subElements = {};
+
   constructor(headersConfig, {
     data = [],
     sorted = {}
@@ -33,7 +36,7 @@ export default class SortableTable {
         column.append(this.subElements.arrow);
       }
 
-      this.subElements.body.innerHTML = this.getRows(sortedData);
+      this.subElements.body.innerHTML = this.getTableRows(sortedData);
     }
   }
 
@@ -44,31 +47,29 @@ export default class SortableTable {
   }
 
   getHeaderRow({id, title, sortable}) {
-    return `<div className="sortable-table__cell" data-id="${id}" data-sortable="${sortable}">
+    return `<div class="sortable-table__cell" data-id="${id}" data-order=${this.sorted.order} data-sortable="${sortable}">
         <span>${title}</span>
-        <span data-element="arrow" class="sortable-table__sort-arrow">
-          <span class="sort-arrow"></span>
-        </span>
+        ${this.getHeaderSortingArrow(id)}
     </div>`;
   }
 
   getHeaderSortingArrow(id) {
-    const isOrderExist = this.sorted.id === id ? this.sorted.id : 1;
+    const isOrderExist = this.sorted.id === id ? this.sorted.id : 0;
 
     return isOrderExist
-      ? `<span data-element="arrow" className="sortable-table__sort-arrow">
-           <span className="sort-arrow"></span>
+      ? `<span data-element="arrow" class="sortable-table__sort-arrow">
+           <span class="sort-arrow"></span>
          </span>`
       : '';
   }
 
   getBody(data) {
     return `<div data-element="body" class="sortable-table__body">
-        ${this.getRows(data)}
+        ${this.getTableRows(data)}
     </div>`;
   }
 
-  getRows(data) {
+  getTableRows(data) {
     return data.map(item => {
       return `
         <a href="/products/${item.id}" class="sortable-table__row">
@@ -87,7 +88,7 @@ export default class SortableTable {
       return template
         ? template(item[id])
         : `<div class="sortable-table__cell">${item[id]}</div>`
-    })
+    }).join('');
   }
 
   getTable() {
@@ -124,7 +125,7 @@ export default class SortableTable {
 
     currentColumn.dataset.order = order;
 
-    this.subElements.body.innerHTML = this.getRows(sortedData);
+    this.subElements.body.innerHTML = this.getTableRows(sortedData);
   }
 
   sortData(id, order) {
