@@ -2,13 +2,14 @@ export default class SortableTable {
   element;
   subElements = {};
 
-  constructor(headerConfig = [], {
-    data = [],
-    sorted = {
-      id: headerConfig.find(item => item.sortable).id,
-      order: 'asc'
-    }
-  }) {
+  constructor(headerConfig = [],
+    {
+      data = [],
+      sorted = {
+        id: headerConfig.find(item => item.sortable).id,
+        order: 'asc'
+      }
+    }) {
     this.headerConfig = headerConfig;
     this.data = data;
     this.sorted = sorted;
@@ -18,12 +19,12 @@ export default class SortableTable {
 
   getHeader() {
     return `<div data-element="header" class="sortable-table__header sortable-table__row">
-        ${this.headerConfig.map(item => this.getHeaderRow(item)).join('')}
+      ${this.headerConfig.map(item => this.getHeaderRow(item)).join('')}
     </div>`;
   }
 
   getHeaderRow({id, title, sortable}) {
-    return `<div className="sortable-table__cell" data-id="${id}" data-sortable="${sortable}">
+    return `<div class="sortable-table__cell" data-id="${id}" data-sortable="${sortable}">
         <span>${title}</span>
         <span data-element="arrow" class="sortable-table__sort-arrow">
           <span class="sort-arrow"></span>
@@ -56,7 +57,7 @@ export default class SortableTable {
       return template
         ? template(item[id])
         : `<div class="sortable-table__cell">${item[id]}</div>`
-    })
+    }).join('');
   }
 
   getTable() {
