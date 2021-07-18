@@ -31,7 +31,7 @@ export default class SortableList {
       const middlePrevElem = top + height / 2;
 
       if (clientY > middlePrevElem) {
-        return nextElem.before(this.placeholderElement);
+        return nextElem.after(this.placeholderElement);
       }
     }
 
@@ -92,13 +92,14 @@ export default class SortableList {
 
     element.className = 'sortable-list__placeholder';
     element.style.width = `${width}px`;
-    element.style.width = `${height}px`;
+    element.style.height = `${height}px`;
 
     return element;
   }
 
   dragStart(element, {clientX, clientY}) {
     this.draggingElem = element;
+    this.draggingElem.classList.add('sortable-list__item_dragging');
     this.elementInitialIndex = [...this.element.children].indexOf(element);
 
     const { x, y } = element.getBoundingClientRect();
@@ -114,6 +115,7 @@ export default class SortableList {
     this.draggingElem.classList.add('sortable-list__item-dragging');
 
     this.placeholderElement = this.createPlaceholderElement(offsetWidth, offsetHeight);
+
     this.draggingElem.after(this.placeholderElement);
     this.element.append(this.draggingElem);
     this.moveDraggingAt(clientX, clientY);
@@ -131,6 +133,7 @@ export default class SortableList {
   }
 
   moveDraggingAt(clientX, clientY) {
+    // debugger;
     this.draggingElem.style.left = `${clientX - this.pointerShift.x}px`;
     this.draggingElem.style.top = `${clientY - this.pointerShift.y}px`;
   }
