@@ -99,8 +99,6 @@ export default class SortableList {
 
   dragStart(element, {clientX, clientY}) {
     this.draggingElem = element;
-    this.draggingElem.classList.add('sortable-list__item_dragging');
-    this.elementInitialIndex = [...this.element.children].indexOf(element);
 
     const { x, y } = element.getBoundingClientRect();
     const { offsetWidth, offsetHeight } = element;
@@ -112,7 +110,7 @@ export default class SortableList {
 
     this.draggingElem.style.width = `${offsetWidth}px`;
     this.draggingElem.style.height = `${offsetHeight}px`;
-    this.draggingElem.classList.add('sortable-list__item-dragging');
+    this.draggingElem.classList.add('sortable-list__item_dragging');
 
     this.placeholderElement = this.createPlaceholderElement(offsetWidth, offsetHeight);
 
@@ -133,7 +131,6 @@ export default class SortableList {
   }
 
   moveDraggingAt(clientX, clientY) {
-    // debugger;
     this.draggingElem.style.left = `${clientX - this.pointerShift.x}px`;
     this.draggingElem.style.top = `${clientY - this.pointerShift.y}px`;
   }
