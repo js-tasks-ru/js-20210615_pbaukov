@@ -1,6 +1,5 @@
-import SortableTable from '../solution/index.js';
-
 import { products, bestsellers } from './__mocks__/products-data.js';
+import SortableTable from "./index";
 
 const headerConfig = [
   {

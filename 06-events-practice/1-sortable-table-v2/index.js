@@ -4,7 +4,10 @@ export default class SortableTable {
 
   constructor(headersConfig, {
     data = [],
-    sorted = {}
+    sorted =  {
+      id: headerConfig.find(item => item.sortable).id,
+      order: 'asc'
+    }
   } = {}) {
     this.headerConfig = headersConfig;
     this.data = data;
